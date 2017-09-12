@@ -2,6 +2,19 @@
     display: flex;
     justify-content: space-around;
 }
+#root {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 h1 {
-    font-family: fantasy;
+    font-family: "Geneva", sans-serif;
+    justify-content: center
+}
+a {
+    font-family: "Times New Roman", serif;
+    border: medium;
+    border-style: invisible;
 }
