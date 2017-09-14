@@ -1,10 +1,10 @@
 #linkBox {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 #root {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -13,8 +13,9 @@ h1 {
     font-family: "Geneva", sans-serif;
     justify-content: center
 }
-a {
-    font-family: "Times New Roman", serif;
+a.otherPage {
+    font-family: "Lucida Console", sans-serif;
     border: medium;
     border-style: invisible;
+    margin: 4px;
 }
