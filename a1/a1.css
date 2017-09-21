@@ -1,21 +1,44 @@
-#linkBox {
-    display: flex;
-    justify-content: flex-start;
+
+nav {
+    display: block;
 }
-#root {
+a:hover {
+    font-size: 1.5vw;
+}
+body {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+body > div {
+    padding: 0.5vh;
+}
 h1 {
     font-family: "Geneva", sans-serif;
+    font-size: 2vw;
     justify-content: center
 }
 a.otherPage {
     font-family: "Lucida Console", sans-serif;
     border: medium;
-    border-style: invisible;
+    border-style: solid;
+    border-radius: 400px;
+    background: #2d3138;
+    border-color: #2d3138;
+    color: #fffcfc;
     margin: 4px;
+} 
+.attribution {
+    font-family: "Lucida Console", sans-serif;
+    font-size: 0.2em;
 }
+.title {
+    display: block;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+
