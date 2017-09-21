@@ -2,7 +2,7 @@
 nav {
     display: block;
 }
-a:hover {
+a.otherPage:hover {
     font-size: 1.5vw;
 }
 body {
@@ -11,6 +11,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
 }
 body > div {
     padding: 0.5vh;
@@ -39,6 +40,10 @@ a.otherPage {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
+    width: 100vw;
+}
+#home:hover{
+    font-size: 2vw;
 }
 
 
