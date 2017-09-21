@@ -1,6 +1,7 @@
 
 nav {
     display: block;
+    height: 2%;
 }
 a.otherPage:hover {
     font-size: 1.5vw;
@@ -11,7 +12,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 100%;
 }
 body > div {
     padding: 0.5vh;
@@ -19,7 +20,8 @@ body > div {
 h1 {
     font-family: "Geneva", sans-serif;
     font-size: 2vw;
-    justify-content: center
+    justify-content: center;
+    height: 30%;
 }
 a.otherPage {
     font-family: "Lucida Console", sans-serif;
@@ -40,10 +42,15 @@ a.otherPage {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    width: 100vw;
+    width: 90%;
+    height: 20%;
 }
 #home:hover{
     font-size: 2vw;
+    height: 2vw;
+}
+#text{
+    font-family: "Georgia", sans-serif;
 }
 
 
