@@ -52,6 +52,9 @@ a.otherPage {
 }
 #text{
     font-family: "Georgia", sans-serif;
+    width: 60%;
+    height:  50%;
+    overflow: auto;
 }
 .credits {
     font-family: "Lucida Console", sans-serif;
