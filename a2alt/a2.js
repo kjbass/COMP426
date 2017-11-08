@@ -2,7 +2,7 @@ $(document).ready(function () {
     $("#title").append('<button type="button" class="difficulty" id="easy">easy</button>');
     $("#title").append('<button type="button" class="difficulty" id="medium">medium</button>');
     $("#title").append('<button type="button" class="difficulty" id="hard">hard</button>');
-
+    //difficulty is selected and board is built
     $(".difficulty").on("click", difficultySelect);
 });
 
@@ -27,10 +27,32 @@ function difficultySelect(clickEvent) {
 }
 function buildGrid(gridX, gridY) {
     $("#board").empty();
-    for (let i=0; i<gridX; i++){
-        for (let j=0; j<gridY; j++){
+    for (let i=0; i<gridY; i++){
+        for (let j=0; j<gridX; j++){
             $("#board").append('<button type="button" class="square"></button>');
         }
         $("#board").append("<br>");
     }
+    //attach listener to game buttons
+    $(".square").on("click", handleClick);
+    addMines();
 }
+function addMines() {
+    var elArray = $(".square");
+    var numMines = Math.floor(Math.random()*(elArray.length - 1));
+    var minesPlaced = 0;
+    for (let i=0; i<elArray.length; i++){
+        if (minesPlaced=numMines){
+            break;
+        }
+        
+    }
+}
+
+function handleClick(event) {
+    alert($(this).index(".square"));
+}
+
+//At some point the bombs need to be placed, can be done with index
+//Should have some sort of board object that encapsulates all of this hootinany
+//
