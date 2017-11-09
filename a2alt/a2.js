@@ -3,29 +3,35 @@ $(document).ready(function () {
     $("#title").append('<button type="button" class="difficulty" id="medium">medium</button>');
     $("#title").append('<button type="button" class="difficulty" id="hard">hard</button>');
     game = new Game();
+    game.addMines();
     game.render();
     //difficulty is selected and board is built
-    $(".difficulty").on("click", startGame);
+    $(".difficulty").on("click", difficultySelect);
 });
 
-function startGame(clickEvent) {
+function difficultySelect(clickEvent) {
     var difficulty = clickEvent.target.id;
     var gridX;
     var gridY;
     if(difficulty=="easy"){
-        gridX=8;
-        gridY=8;
+        gridX = 8;
+        gridY = 8;
     } else if (difficulty=="medium"){
-        gridX=20;
-        gridY=20;
+        gridX = 20;
+        gridY = 20;
+        numMines = 20;
     } else if(difficulty=="hard"){
-        gridX=40;
-        gridY=30;
+        gridX = 40;
+        gridY = 30;
+        numMines = 34;
     } else {
-        gridX=8;
-        gridY=8;
+        gridX = 8;
+        gridY = 8;
+        numMines = 10;
     }
-    game = new Game(gridX, gridY);
+    game = new Game(gridX, gridY, numMines);
+    game.addMines();
+    game.render();
 }
 
 // function addMines() {
@@ -40,7 +46,7 @@ function startGame(clickEvent) {
 //     }
 // }
 
-var Game = function (width, height){
+var Game = function (width, height, numMines){
     this.width = width;
     this.height = height;
     if (null==height){
@@ -53,24 +59,44 @@ var Game = function (width, height){
     } else {
         this.width = width;
     }
+    if (null==numMines){
+        this.numMines = 10;
+    } else {
+        this.numMines = numMines; 
+    }
+
     this.grid = new Array();
-    for (let i=0; i<this.height; i++){
+    for (let i=0; i<this.width; i++){
         this.grid[i] = new Array();
-        for (let j=0; j<this.width; j++){
+        for (let j=0; j<this.height; j++){
             this.grid[i][j] = new button(i,j); 
         }
     }
-    this.render();
-    //attach listener to game buttons
-    //addMines();
 }
 
+Game.prototype.addMines = function() {
+    var numSet = new Set();
+    while(numSet.size<this.numMines){
+        numSet.add(Math.floor(Math.random()*(this.height+1)*(this.width-1)));
+    }
+    numSet.forEach(function (index){
+        this.grid[button.getXFromIndex(index)][button.getYFromIndex(index)].addClass("mine");
+    }, this);
+}
 var button = function(x,y){
     this.classList = ["square"];
     this.x = x;
     this.y = y;
 }
-// var button.getXFromIndex=
+
+button.getXFromIndex = function(index){
+    return index%game.width;
+}
+
+button.getYFromIndex = function(index){
+    return Math.floor(index/game.width);
+}
+
 button.prototype.toHtml = function(){
     htmlString = '<button type = "button" class="';
     //adds mine class if mine
@@ -82,23 +108,28 @@ button.prototype.toHtml = function(){
     return htmlString;
 }
 
+button.prototype.addClass = function(cssClass){
+    this.classList.push(cssClass);
+}
+
 function handleClick(event) {
-    alert($(this).index(".square"));
+    var index = $(this).index(".square");
+    game.grid[button.getXFromIndex(index)][button.getYFromIndex(index)].addClass("clicked");
     game.render();
 }
 
 Game.prototype.render = function() {
-    c=0;
     $("#board").empty();
-    for (let i=0; i<this.height; i++){
-        for (let j=0; j<this.width; j++){
-            $("#board").append(this.grid[i][j].toHtml());
-            c++;
+    for (let i=0; i<this.grid[0].length; i++){
+        for (let j=0; j<this.grid.length; j++){
+            $("#board").append(this.grid[j][i].toHtml());
         }
         $("#board").append("<br>");
     }
     $(".square").on("click", handleClick);
 }
-//At some point the bombs need to be placed, can be done with index
-//Should have some sort of board object that encapsulates all of this hootinany
-//
+
+//Add mines
+//adjacency
+//clikcing mine ends game
+//custom mine amount and such

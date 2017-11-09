@@ -7,6 +7,7 @@ body {
     box-sizing: border-box;
     width: 100%;
 }
+
 .square {
     background-color: gray;
     height: 20px;
@@ -15,6 +16,10 @@ body {
 #board {
     padding: 20px;
 }
+.clicked {
+    background-color: red;
+}
+
 .mine {
-    
+    background-color: blue;
 }
