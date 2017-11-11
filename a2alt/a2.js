@@ -2,6 +2,8 @@ $(document).ready(function () {
     $("#title").append('<button type="button" class="difficulty" id="easy">easy</button>');
     $("#title").append('<button type="button" class="difficulty" id="medium">medium</button>');
     $("#title").append('<button type="button" class="difficulty" id="hard">hard</button>');
+    $("#title").append('<button type="button" class="difficulty" id="custom">custom</button>');
+    $("#title").append('<button type="button" class="difficulty" id="new">new</button>');
     game = new Game();
     game.addMines();
     game.render();
@@ -25,7 +27,29 @@ function difficultySelect(clickEvent) {
         gridX = 40;
         gridY = 30;
         numMines = 34;
-    } else {
+    } else if(difficulty==="custom"){
+        gridX = prompt("width", "8");
+        gridY = prompt("height", "8");
+        numMines = prompt("number of mines", "10");
+        gridX = parseInt(gridX);
+        gridY = parseInt(gridY);
+        numMines = parseInt(numMines);
+        if (gridX>40||gridX<8){
+            alert("40 is max width and 8 is min width, please try again.");
+        }
+        if (gridY>30||gridY<8){
+            alert("30 is max height, please try again.");
+        }
+        if((numMines>((gridX*gridY)-1))||numMines<1){
+            alert("wrong mine number, needs >1 or <(width*height)-1 , please try again.");
+        }
+        return;
+    } else if(difficulty==="new"){
+        gridX = game.width;
+        gridY = game.height;
+        numMines = game.numMines;
+    }
+    else {
         gridX = 8;
         gridY = 8;
         numMines = 10;
@@ -74,6 +98,7 @@ Game.prototype.addMines = function() {
     }, this);
 }
 var button = function(x,y){
+    this.adjNum=0;
     this.classList = ["square"];
     this.x = x;
     this.y = y;
@@ -89,12 +114,18 @@ button.getYFromIndex = function(index){
 
 button.prototype.toHtml = function(){
     htmlString = '<button type = "button" class="';
+
     //adds mine class if mine
     this.classList.forEach(function(element) {
         htmlString += element;
-        htmlString += " "
+        htmlString += " ";
     });
-    htmlString+='"></button>';
+    htmlString+='">' 
+    if(this.adjNum!=0){
+        htmlString += this.adjNum;
+    }
+    htmlString+='</button>';
+    
     return htmlString;
 }
 
@@ -144,19 +175,71 @@ function handleClick(event) {
     var y = button.getYFromIndex(index);
     game.grid[x][y].addClass(classToAdd);
 
-
-    //examine adjacency
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-    game.grid[x-1][y]
-
+    if(!event.shiftKey){
+        var numAdjacentMines = examineAdjacency(x,y);
+        game.grid[x][y].adjNum = numAdjacentMines;
+    }
     game.render();
 }
+function examineAdjacency(x,y){
+    var numAdjacentMines = 0;
+    //I am confident there is a better way to do this
+    //but i am brain dead so im just using try catch blocks
+    //to ensure i dont get out of bounds errors
+    try{if(game.grid[x-1][y].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x-1][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x-1][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x+1][y].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x+1][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x+1][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    try{if(game.grid[x][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
+    if (numAdjacentMines===0){
+        try{
+            if(!game.grid[x+1][y].hasClass("flagged")){
+                game.grid[x+1][y].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x+1][y+1].hasClass("flagged")){
+                game.grid[x+1][y+1].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x+1][y-1].hasClass("flagged")){
+                game.grid[x+1][y-1].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x-1][y].hasClass("flagged")){
+                game.grid[x-1][y].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x-1][y+1].hasClass("flagged")){
+                game.grid[x-1][y+1].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x-1][y-1].hasClass("flagged")){
+                game.grid[x-1][y-1].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x][y+1].hasClass("flagged")){
+                game.grid[x][y+1].addClass("clicked");
+            }
+        } catch(err){}
+        try{
+            if(!game.grid[x][y-1].hasClass("flagged")){
+                game.grid[x][y-1].addClass("clicked");
+            }
+        } catch(err){}
+
+    }
+    return numAdjacentMines;
+}
+
 function endGame(){
     $("#extraText").append("<p>please select difficulty to start again</p>");
     $(".mine").addClass("clicked");
