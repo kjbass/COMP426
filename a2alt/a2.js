@@ -16,6 +16,7 @@ function difficultySelect(clickEvent) {
     if(difficulty=="easy"){
         gridX = 8;
         gridY = 8;
+        numMines = 10;
     } else if (difficulty=="medium"){
         gridX = 20;
         gridY = 20;
@@ -34,17 +35,6 @@ function difficultySelect(clickEvent) {
     game.render();
 }
 
-// function addMines() {
-//     var elArray = $(".square");
-//     var numMines = Math.floor(Math.random()*(elArray.length - 1));
-//     var minesPlaced = 0;
-//     for (let i=0; i<elArray.length; i++){
-//         if (minesPlaced=numMines){
-//             break;
-//         }
-        
-//     }
-// }
 
 var Game = function (width, height, numMines){
     this.width = width;
@@ -109,16 +99,71 @@ button.prototype.toHtml = function(){
 }
 
 button.prototype.addClass = function(cssClass){
+    if (this.hasClass(cssClass)){
+        return;
+    }
     this.classList.push(cssClass);
+}
+button.prototype.removeClass = function(cssClass){
+    var index = this.classList.indexOf("cssClass");
+    this.classList.splice(index, 1);
+}
+button.prototype.hasClass = function(cssClass){
+    if (this.classList.indexOf(cssClass)===-1){return false;}
+    else {return true;}
 }
 
 function handleClick(event) {
+    classToAdd="";
     var index = $(this).index(".square");
-    game.grid[button.getXFromIndex(index)][button.getYFromIndex(index)].addClass("clicked");
+
+    if($(this).hasClass("unclickable")){
+        return;
+    }
+
+    if($(this).hasClass("mine")){
+        if(!event.shiftKey){
+            endGame();
+            return;
+        }
+    } 
+
+    if(event.shiftKey){
+        if($(this).hasClass("flagged")){
+            game.grid[button.getXFromIndex(index)][button.getYFromIndex(index)].removeClass("flagged");
+        } else {
+            classToAdd = "flagged";
+        }
+    } else {
+        if($(this).hasClass("flagged")){
+            return;
+        }
+        classToAdd = "clicked";
+    }
+    var x = button.getXFromIndex(index);
+    var y = button.getYFromIndex(index);
+    game.grid[x][y].addClass(classToAdd);
+
+
+    //examine adjacency
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+    game.grid[x-1][y]
+
     game.render();
 }
-
+function endGame(){
+    $("#extraText").append("<p>please select difficulty to start again</p>");
+    $(".mine").addClass("clicked");
+    $("button").addClass("unclickable");
+}
 Game.prototype.render = function() {
+    $("#extraText").empty();
     $("#board").empty();
     for (let i=0; i<this.grid[0].length; i++){
         for (let j=0; j<this.grid.length; j++){
@@ -129,7 +174,5 @@ Game.prototype.render = function() {
     $(".square").on("click", handleClick);
 }
 
-//Add mines
 //adjacency
-//clikcing mine ends game
 //custom mine amount and such

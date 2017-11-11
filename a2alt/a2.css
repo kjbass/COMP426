@@ -9,7 +9,7 @@ body {
 }
 
 .square {
-    background-color: gray;
+    background-color: rgb(124, 107, 107);
     height: 20px;
     width: 20px;
 }
@@ -17,9 +17,14 @@ body {
     padding: 20px;
 }
 .clicked {
+    background-color: rgb(180, 188, 197);
+}
+
+.mine.clicked {
     background-color: red;
 }
 
-.mine {
-    background-color: blue;
+
+.flagged{
+    background-image: url("flag.png");
 }
