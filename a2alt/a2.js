@@ -63,6 +63,7 @@ function difficultySelect(clickEvent) {
 var Game = function (width, height, numMines){
     this.width = width;
     this.height = height;
+    this.numFlagged = 0;
     if (null==height){
         this.height=8;
     } else {
@@ -162,8 +163,12 @@ function handleClick(event) {
     if(event.shiftKey){
         if($(this).hasClass("flagged")){
             game.grid[button.getXFromIndex(index)][button.getYFromIndex(index)].removeClass("flagged");
-        } else {
+            game.numFlagged--;
+        } else if((game.numMines-game.numFlagged)===0){
+            return;
+        }else {
             classToAdd = "flagged";
+            game.numFlagged++;
         }
     } else {
         if($(this).hasClass("flagged")){
@@ -247,6 +252,8 @@ function endGame(){
 }
 Game.prototype.render = function() {
     $("#extraText").empty();
+    $("#score").empty();
+    $("#score").append("Mines Left: " + (game.numMines - game.numFlagged));
     $("#board").empty();
     for (let i=0; i<this.grid[0].length; i++){
         for (let j=0; j<this.grid.length; j++){
