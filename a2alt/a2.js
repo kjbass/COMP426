@@ -198,6 +198,9 @@ function handleClick(event) {
 
     if(!event.shiftKey){
         var numAdjacentMines = examineAdjacency(x,y);
+        if(numAdjacentMines===0){
+            clearAdjacency(x,y);
+        }
         game.grid[x][y].adjNum = numAdjacentMines;
     }
     game.render();
@@ -208,7 +211,6 @@ function examineAdjacency(x,y){
     //but i am brain dead so im just using try catch blocks
     //to ensure i dont get out of bounds errors
 
-
     try{if(game.grid[x-1][y].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x-1][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x-1][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
@@ -217,74 +219,115 @@ function examineAdjacency(x,y){
     try{if(game.grid[x+1][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
-    if (numAdjacentMines===0){
-        try{
-            if(!game.grid[x+1][y].hasClass("flagged")){
-                if(!game.grid[x+1][y].hasClass("clicked")){
-                    game.grid[x+1][y].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x+1][y+1].hasClass("flagged")){
-                if(!game.grid[x+1][y+1].hasClass("clicked")){
-                    game.grid[x+1][y+1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x+1][y-1].hasClass("flagged")){
-                if(!game.grid[x+1][y-1].hasClass("clicked")){
-                    game.grid[x+1][y-1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}//TODO: something wrong here with this lol 
-        try{
-            if(!game.grid[x-1][y].hasClass("flagged")){
-                if(!game.grid[x-1][y].hasClass("clicked")){
-                    game.grid[x-1][y].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x-1][y+1].hasClass("flagged")){
-                if(!game.grid[x-1][y+1].hasClass("clicked")){
-                    game.grid[x-1][y+1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x-1][y-1].hasClass("flagged")){
-                if(!game.grid[x-1][y-1].hasClass("clicked")){
-                    game.grid[x-1][y-1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x][y+1].hasClass("flagged")){
-                if(!game.grid[x][y+1].hasClass("clicked")){
-                    game.grid[x][y+1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
-        try{
-            if(!game.grid[x][y-1].hasClass("flagged")){
-                if(!game.grid[x][y-1].hasClass("clicked")){
-                    game.grid[x][y-1].addClass("clicked");
-                    game.numCleared++;
-                }
-            }
-        } catch(err){}
 
-    }
     return numAdjacentMines;
+}
+
+function clearAdjacency(x,y){
+    try{
+        if(!game.grid[x+1][y].hasClass("flagged")){
+            if(!game.grid[x+1][y].hasClass("clicked")){
+                game.grid[x+1][y].addClass("clicked");
+                var adjacency = examineAdjacency(x+1,y);
+                // if(adjacency===0){
+                //     clearAdjacency(x+1,y);
+                // }
+                game.grid[x+1][y].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x+1][y+1].hasClass("flagged")){
+            if(!game.grid[x+1][y+1].hasClass("clicked")){
+                game.grid[x+1][y+1].addClass("clicked");
+                var adjacency = examineAdjacency(x+1,y+1);
+                // if(adjacency===0){
+                //     clearAdjacency(x+1,y+1);
+                // }
+                game.grid[x+1][y+1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x+1][y-1].hasClass("flagged")){
+            if(!game.grid[x+1][y-1].hasClass("clicked")){
+                game.grid[x+1][y-1].addClass("clicked");
+                var adjacency = examineAdjacency(x+1,y-1);
+                // if(adjacency===0){
+                //     clearAdjacency(x+1,y-1);
+                // }
+                game.grid[x+1][y-1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){} 
+    try{
+        if(!game.grid[x-1][y].hasClass("flagged")){
+            if(!game.grid[x-1][y].hasClass("clicked")){
+                game.grid[x-1][y].addClass("clicked");
+                var adjacency = examineAdjacency(x-1,y);
+                // if(adjacency===0){
+                //     clearAdjacency(x-1,y);
+                // }
+                game.grid[x-1][y].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x-1][y+1].hasClass("flagged")){
+            if(!game.grid[x-1][y+1].hasClass("clicked")){
+                game.grid[x-1][y+1].addClass("clicked");
+                var adjacency = examineAdjacency(x-1,y+1);
+                // if(adjacency===0){
+                //     clearAdjacency(x-1,y+1);
+                // }
+                game.grid[x-1][y+1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x-1][y-1].hasClass("flagged")){
+            if(!game.grid[x-1][y-1].hasClass("clicked")){
+                game.grid[x-1][y-1].addClass("clicked");
+                var adjacency = examineAdjacency(x-1,y-1);
+                // if(adjacency===0){
+                //     clearAdjacency(x-1,y-1);
+                // }
+                game.grid[x-1][y-1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x][y+1].hasClass("flagged")){
+            if(!game.grid[x][y+1].hasClass("clicked")){
+                game.grid[x][y+1].addClass("clicked");
+                var adjacency = examineAdjacency(x-1,y);
+                // if(adjacency===0){
+                //     clearAdjacency(x,y+1);
+                // }
+                game.grid[x][y+1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+    try{
+        if(!game.grid[x][y-1].hasClass("flagged")){
+            if(!game.grid[x][y-1].hasClass("clicked")){
+                game.grid[x][y-1].addClass("clicked");
+                var adjacency = examineAdjacency(x,y-1);
+                // if(adjacency===0){
+                //     clearAdjacency(x,y-1);
+                // }
+                game.grid[x][y-1].adjNum = adjacency;
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
 }
 
 function examineFlagAdjacency(x,y) {
