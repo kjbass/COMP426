@@ -9,7 +9,6 @@ $(document).ready(function () {
     game.render();
     //difficulty is selected and board is built
     $(".difficulty").on("click", difficultySelect);
-    setInterval()
 });
 
 function difficultySelect(clickEvent) {
