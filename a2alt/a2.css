@@ -29,9 +29,7 @@ body {
     background-image: url("flag.png");
 }
 
-.mine {
-    background-color: black;
-}
+
 
 .flagged{
     background-image: url("flag.png");
