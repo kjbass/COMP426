@@ -306,7 +306,7 @@ function clearAdjacency(x,y){
         if(!game.grid[x][y+1].hasClass("flagged")){
             if(!game.grid[x][y+1].hasClass("clicked")){
                 game.grid[x][y+1].addClass("clicked");
-                var adjacency = examineAdjacency(x-1,y);
+                var adjacency = examineAdjacency(x,y+1);
                 // if(adjacency===0){
                 //     clearAdjacency(x,y+1);
                 // }
