@@ -20,10 +20,18 @@ body {
     background-color: rgb(180, 188, 197);
 }
 .clicked.flagged{
-    
+
 }
 
 .mine.clicked {
+    background-color: red;
+}
+
+/* 
+hack to make it so that at the end of thegame squares that are mines 
+that are flagged and clicked to appear red lol
+ */
+.gameOverHack.mine.clicked.flagged {
     background-color: red;
 }
 
@@ -32,6 +40,9 @@ body {
     background-image: url("flag.png");
 }
 
+/* .mine {
+    background-color: black;
+} */
 
 
 .flagged{

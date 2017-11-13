@@ -229,100 +229,107 @@ function clearAdjacency(x,y){
             if(!game.grid[x+1][y].hasClass("clicked")){
                 game.grid[x+1][y].addClass("clicked");
                 var adjacency = examineAdjacency(x+1,y);
-                // if(adjacency===0){
-                //     clearAdjacency(x+1,y);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x+1,y);
+                }
                 game.grid[x+1][y].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x+1][y+1].hasClass("flagged")){
             if(!game.grid[x+1][y+1].hasClass("clicked")){
                 game.grid[x+1][y+1].addClass("clicked");
                 var adjacency = examineAdjacency(x+1,y+1);
-                // if(adjacency===0){
-                //     clearAdjacency(x+1,y+1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x+1,y+1);
+                }
                 game.grid[x+1][y+1].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x+1][y-1].hasClass("flagged")){
             if(!game.grid[x+1][y-1].hasClass("clicked")){
                 game.grid[x+1][y-1].addClass("clicked");
                 var adjacency = examineAdjacency(x+1,y-1);
-                // if(adjacency===0){
-                //     clearAdjacency(x+1,y-1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x+1,y-1);
+                }
                 game.grid[x+1][y-1].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){} 
+
     try{
         if(!game.grid[x-1][y].hasClass("flagged")){
             if(!game.grid[x-1][y].hasClass("clicked")){
                 game.grid[x-1][y].addClass("clicked");
                 var adjacency = examineAdjacency(x-1,y);
-                // if(adjacency===0){
-                //     clearAdjacency(x-1,y);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x-1,y);
+                }
                 game.grid[x-1][y].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x-1][y+1].hasClass("flagged")){
             if(!game.grid[x-1][y+1].hasClass("clicked")){
                 game.grid[x-1][y+1].addClass("clicked");
                 var adjacency = examineAdjacency(x-1,y+1);
-                // if(adjacency===0){
-                //     clearAdjacency(x-1,y+1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x-1,y+1);
+                }
                 game.grid[x-1][y+1].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x-1][y-1].hasClass("flagged")){
             if(!game.grid[x-1][y-1].hasClass("clicked")){
                 game.grid[x-1][y-1].addClass("clicked");
                 var adjacency = examineAdjacency(x-1,y-1);
-                // if(adjacency===0){
-                //     clearAdjacency(x-1,y-1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x-1,y-1);
+                }
                 game.grid[x-1][y-1].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x][y+1].hasClass("flagged")){
             if(!game.grid[x][y+1].hasClass("clicked")){
                 game.grid[x][y+1].addClass("clicked");
                 var adjacency = examineAdjacency(x,y+1);
-                // if(adjacency===0){
-                //     clearAdjacency(x,y+1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x,y+1);
+                }
                 game.grid[x][y+1].adjNum = adjacency;
                 game.numCleared++;
             }
         }
     } catch(err){}
+
     try{
         if(!game.grid[x][y-1].hasClass("flagged")){
             if(!game.grid[x][y-1].hasClass("clicked")){
                 game.grid[x][y-1].addClass("clicked");
                 var adjacency = examineAdjacency(x,y-1);
-                // if(adjacency===0){
-                //     clearAdjacency(x,y-1);
-                // }
+                if(adjacency===0){
+                    clearAdjacency(x,y-1);
+                }
                 game.grid[x][y-1].adjNum = adjacency;
                 game.numCleared++;
             }
@@ -342,13 +349,14 @@ function examineFlagAdjacency(x,y) {
     try{if(game.grid[x][y-1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
     try{if(game.grid[x][y+1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
     if(game.grid[x][y].adjNum!=numAdjacentFlags){return;}
-    console.log("did not return");
+
     try{
         if(game.grid[x+1][y].hasClass("mine")&&!game.grid[x+1][y].hasClass("flagged")){
             endGame();
         } else {
             if(!game.grid[x+1][y].hasClass("clicked")&&!game.grid[x+1][y].hasClass("flagged")){
                 game.grid[x+1][y].addClass("clicked");
+                game.grid[x+1][y].adjNum=examineAdjacency(x+1,y);
                 game.numCleared++;
             }
         }
@@ -360,6 +368,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x+1][y+1].hasClass("clicked")&&!game.grid[x+1][y+1].hasClass("flagged")){
                 game.grid[x+1][y+1].addClass("clicked");
+                game.grid[x+1][y+1].adjNum=examineAdjacency(x+1,y+1);
                 game.numCleared++;
             }
         }
@@ -371,6 +380,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x+1][y-1].hasClass("clicked")&&!game.grid[x+1][y-1].hasClass("flagged")){
                 game.grid[x+1][y-1].addClass("clicked");
+                game.grid[x+1][y-1].adjNum=examineAdjacency(x+1,y-1);
                 game.numCleared++;
             }
         }
@@ -382,6 +392,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x-1][y].hasClass("clicked")&&!game.grid[x-1][y].hasClass("flagged")){
                 game.grid[x-1][y].addClass("clicked");
+                game.grid[x-1][y].adjNum=examineAdjacency(x-1,y);
                 game.numCleared++;
             }
         }
@@ -393,6 +404,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x-1][y+1].hasClass("clicked")&&!game.grid[x-1][y+1].hasClass("flagged")){
                 game.grid[x-1][y+1].addClass("clicked");
+                game.grid[x-1][y+1].adjNum=examineAdjacency(x-1,y+1);
                 game.numCleared++;
             }
         }
@@ -404,6 +416,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x-1][y-1].hasClass("clicked")&&!game.grid[x-1][y-1].hasClass("flagged")){
                 game.grid[x-1][y-1].addClass("clicked");
+                game.grid[x-1][y-1].adjNum=examineAdjacency(x-1,y-1);
                 game.numCleared++;
             }
         }
@@ -415,6 +428,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x][y+1].hasClass("clicked")&&!game.grid[x][y+1].hasClass("flagged")){
                 game.grid[x][y+1].addClass("clicked");
+                game.grid[x][y+1].adjNum=examineAdjacency(x,y+1);
                 game.numCleared++;
             }
         }
@@ -426,6 +440,7 @@ function examineFlagAdjacency(x,y) {
         } else {
             if(!game.grid[x][y-1].hasClass("clicked")&&!game.grid[x][y-1].hasClass("flagged")){
                 game.grid[x][y-1].addClass("clicked");
+                game.grid[x][y-1].adjNum=examineAdjacency(x,y-1);
                 game.numCleared++;
             }
         }
@@ -435,7 +450,7 @@ function examineFlagAdjacency(x,y) {
 
 function endGame(){
     $("#extraText").append("<p>please select difficulty to start again</p>");
-    $(".mine").addClass("clicked");
+    $(".mine").addClass("clicked").addClass("gameOverHack");
     $("button").addClass("unclickable");
 }
 
@@ -444,8 +459,6 @@ function win(){
 }
 
 Game.prototype.render = function() {
-    console.log("total cleared" + game.numCleared +"total squares-mines" +((game.width*game.height)-game.numMines));
-
     $("#extraText").empty();
     $("#score").empty();
     $("#score").append("Mines Left: " + (game.numMines - game.numFlagged));
