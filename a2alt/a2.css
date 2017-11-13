@@ -19,9 +19,6 @@ body {
 .clicked {
     background-color: rgb(180, 188, 197);
 }
-.clicked.flagged{
-
-}
 
 .mine.clicked {
     background-color: red;
