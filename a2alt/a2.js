@@ -34,16 +34,23 @@ function difficultySelect(clickEvent) {
         gridX = parseInt(gridX);
         gridY = parseInt(gridY);
         numMines = parseInt(numMines);
-        if (gridX>40||gridX<8){
+        var errorFlag = false;
+        if (isNaN(gridX)||gridX>40||gridX<8){
             alert("40 is max width and 8 is min width, please try again.");
+            errorFlag = true;
         }
-        if (gridY>30||gridY<8){
-            alert("30 is max height, please try again.");
+        if (isNaN(gridY)||gridY>30||gridY<8){
+            alert("30 is max height and 8 is min, please try again.");
+            errorFlag = true;
         }
-        if((numMines>((gridX*gridY)-1))||numMines<1){
-            alert("wrong mine number, needs >1 or <(width*height)-1 , please try again.");
+        if((isNaN(numMines)||numMines>((gridX*gridY)-1))||numMines<1){
+            alert("wrong mine number, needs > 1 or <(width*height)-1 , please try again.");
+            errorFlag = true;
         }
-        return;
+        if(errorFlag){
+            return;
+        }
+        
     } else if(difficulty==="new"){
         gridX = game.width;
         gridY = game.height;
@@ -59,11 +66,11 @@ function difficultySelect(clickEvent) {
     game.render();
 }
 
-
 var Game = function (width, height, numMines){
     this.width = width;
     this.height = height;
     this.numFlagged = 0;
+    this.numCleared = 0;
     if (null==height){
         this.height=8;
     } else {
@@ -146,15 +153,25 @@ button.prototype.hasClass = function(cssClass){
 }
 
 function handleClick(event) {
+    var numclickedInit = game.numCleared;
     classToAdd="";
     var index = $(this).index(".square");
+    var x = button.getXFromIndex(index);
+    var y = button.getYFromIndex(index);
 
     if($(this).hasClass("unclickable")){
         return;
     }
+    if($(this).hasClass("clicked")) {
+        if(game.grid[x][y].adjNum!==0){
+            examineFlagAdjacency(x,y);
+        }
+        game.render();
+        return;
+    }
 
     if($(this).hasClass("mine")){
-        if(!event.shiftKey){
+        if(!event.shiftKey&&!$(this).hasClass("flagged")){
             endGame();
             return;
         }
@@ -175,9 +192,8 @@ function handleClick(event) {
             return;
         }
         classToAdd = "clicked";
+        game.numCleared++;
     }
-    var x = button.getXFromIndex(index);
-    var y = button.getYFromIndex(index);
     game.grid[x][y].addClass(classToAdd);
 
     if(!event.shiftKey){
@@ -191,6 +207,8 @@ function examineAdjacency(x,y){
     //I am confident there is a better way to do this
     //but i am brain dead so im just using try catch blocks
     //to ensure i dont get out of bounds errors
+
+
     try{if(game.grid[x-1][y].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x-1][y-1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
     try{if(game.grid[x-1][y+1].hasClass("mine")){numAdjacentMines++;}} catch(err){}
@@ -202,42 +220,66 @@ function examineAdjacency(x,y){
     if (numAdjacentMines===0){
         try{
             if(!game.grid[x+1][y].hasClass("flagged")){
-                game.grid[x+1][y].addClass("clicked");
+                if(!game.grid[x+1][y].hasClass("clicked")){
+                    game.grid[x+1][y].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x+1][y+1].hasClass("flagged")){
-                game.grid[x+1][y+1].addClass("clicked");
+                if(!game.grid[x+1][y+1].hasClass("clicked")){
+                    game.grid[x+1][y+1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x+1][y-1].hasClass("flagged")){
-                game.grid[x+1][y-1].addClass("clicked");
+                if(!game.grid[x+1][y-1].hasClass("clicked")){
+                    game.grid[x+1][y-1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
-        } catch(err){}
+        } catch(err){}//TODO: something wrong here with this lol 
         try{
             if(!game.grid[x-1][y].hasClass("flagged")){
-                game.grid[x-1][y].addClass("clicked");
+                if(!game.grid[x-1][y].hasClass("clicked")){
+                    game.grid[x-1][y].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x-1][y+1].hasClass("flagged")){
-                game.grid[x-1][y+1].addClass("clicked");
+                if(!game.grid[x-1][y+1].hasClass("clicked")){
+                    game.grid[x-1][y+1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x-1][y-1].hasClass("flagged")){
-                game.grid[x-1][y-1].addClass("clicked");
+                if(!game.grid[x-1][y-1].hasClass("clicked")){
+                    game.grid[x-1][y-1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x][y+1].hasClass("flagged")){
-                game.grid[x][y+1].addClass("clicked");
+                if(!game.grid[x][y+1].hasClass("clicked")){
+                    game.grid[x][y+1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
         try{
             if(!game.grid[x][y-1].hasClass("flagged")){
-                game.grid[x][y-1].addClass("clicked");
+                if(!game.grid[x][y-1].hasClass("clicked")){
+                    game.grid[x][y-1].addClass("clicked");
+                    game.numCleared++;
+                }
             }
         } catch(err){}
 
@@ -245,12 +287,122 @@ function examineAdjacency(x,y){
     return numAdjacentMines;
 }
 
+function examineFlagAdjacency(x,y) {
+    numAdjacentFlags = 0;
+
+    try{if(game.grid[x-1][y].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x-1][y-1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x-1][y+1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x+1][y].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x+1][y-1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x+1][y+1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x][y-1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    try{if(game.grid[x][y+1].hasClass("flagged")){numAdjacentFlags++;}} catch(err){}
+    if(game.grid[x][y].adjNum!=numAdjacentFlags){return;}
+    console.log("did not return");
+    try{
+        if(game.grid[x+1][y].hasClass("mine")&&!game.grid[x+1][y].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x+1][y].hasClass("clicked")){
+                game.grid[x+1][y].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x+1][y+1].hasClass("mine")&&!game.grid[x+1][y+1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x+1][y+1].hasClass("clicked")){
+                game.grid[x+1][y+1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x+1][y-1].hasClass("mine")&&!game.grid[x+1][y-1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x+1][y-1].hasClass("clicked")){
+                game.grid[x+1][y-1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x-1][y].hasClass("mine")&&!game.grid[x-1][y].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x-1][y].hasClass("clicked")){
+                game.grid[x-1][y].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x-1][y+1].hasClass("mine")&&!game.grid[x-1][y+1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x-1][y+1].hasClass("clicked")){
+                game.grid[x-1][y+1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x-1][y-1].hasClass("mine")&&!game.grid[x-1][y-1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x-1][y-1].hasClass("clicked")){
+                game.grid[x-1][y-1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x][y+1].hasClass("mine")&&!game.grid[x][y+1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x][y+1].hasClass("clicked")){
+                game.grid[x][y+1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+    try{
+        if(game.grid[x][y-1].hasClass("mine")&&!game.grid[x][y-1].hasClass("flagged")){
+            endGame();
+        } else {
+            if(!game.grid[x][y-1].hasClass("clicked")){
+                game.grid[x][y-1].addClass("clicked");
+                game.numCleared++;
+            }
+        }
+    } catch(err){}
+
+}
+
 function endGame(){
     $("#extraText").append("<p>please select difficulty to start again</p>");
     $(".mine").addClass("clicked");
     $("button").addClass("unclickable");
 }
+
+function win(){
+    $("#extraText").append("<p>you win, please select difficulty to start again</p>");
+}
+
 Game.prototype.render = function() {
+    console.log("total cleared" + game.numCleared +"total squares-mines" +((game.width*game.height)-game.numMines));
+
     $("#extraText").empty();
     $("#score").empty();
     $("#score").append("Mines Left: " + (game.numMines - game.numFlagged));
@@ -262,6 +414,10 @@ Game.prototype.render = function() {
         $("#board").append("<br>");
     }
     $(".square").on("click", handleClick);
+    if (game.numCleared===((game.width*game.height)-game.numMines)){
+        win();
+        return;
+    }
 }
 
 //adjacency

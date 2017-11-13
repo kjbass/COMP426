@@ -24,6 +24,14 @@ body {
     background-color: red;
 }
 
+.mine.clicked.flagged {
+    background-color: rgb(124, 107, 107);
+    background-image: url("flag.png");
+}
+
+.mine {
+    background-color: black;
+}
 
 .flagged{
     background-image: url("flag.png");
