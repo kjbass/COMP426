@@ -38,7 +38,6 @@ $conn->query("
         event_type VARCHAR(10) NOT NULL,
         scoringPlayerID INT NOT NULL,
         quarterBackID INT,
-        FOREIGN KEY(teamID) REFERENCES teams(teamID),
         FOREIGN KEY(scoringPlayerID) REFERENCES players(playerID),
         FOREIGN KEY(quarterBackID) REFERENCES players(playerID),
         PRIMARY KEY (eventID)
