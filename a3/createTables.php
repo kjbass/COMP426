@@ -28,7 +28,7 @@ $conn->query("
         lastName VARCHAR(40) NOT NULL,
         teamID INT NOT NULL,
         date DATE NOT NULL,
-        FOREIGN KEY(teamID) REFERENCES teams(teamID)
+        FOREIGN KEY(teamID) REFERENCES teams(teamID),
         PRIMARY KEY (teamID)
     );
 ");
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS events(
     eventID INT NOT NULL AUTO_INCREMENT,
     event_type VARCHAR(10) NOT NULL,
     scoringPlayerID INT NOT NULL,
-    quarterBackID INT
+    quarterBackID INT,
     FOREIGN KEY(teamID) REFERENCES team(teamID)
     FOREIGN KEY(scoringPlayerID) REFERENCES players(playerID),
     FOREIGN KEY(quarterBackID) REFERENCES players(playerID),
