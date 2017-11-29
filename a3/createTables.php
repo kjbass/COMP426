@@ -2,7 +2,7 @@
 $conn = new mysqli("classroom.cs.unc.edu", "kjbass", $_GET['pass'], "kjbassdb");
 $conn->query("
     CREATE TABLE game(
-        gameID INT NOT NULL AUTOINCREMENT,
+        gameID INT NOT NULL AUTO_INCREMENT,
         team1ID INT NOT NULL,
         team2ID INT NOT NULL,
         date DATE NOT NULL,
