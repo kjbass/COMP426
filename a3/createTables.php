@@ -15,8 +15,8 @@ $conn->query("
         team1ID INT NOT NULL,
         team2ID INT NOT NULL,
         date DATE NOT NULL,
-        FOREIGN KEY(team1ID) REFERENCES team,
-        FOREIGN KEY(team2ID) REFERENCES team,
+        FOREIGN KEY(team1ID) REFERENCES teams,
+        FOREIGN KEY(team2ID) REFERENCES teams,
         PRIMARY KEY (gameID)
     );
 ");
@@ -28,7 +28,7 @@ $conn->query("
         lastName VARCHAR(40) NOT NULL,
         teamID INT NOT NULL,
         date DATE NOT NULL,
-        FOREIGN KEY(teamID) REFERENCES team
+        FOREIGN KEY(teamID) REFERENCES teams
         PRIMARY KEY (teamID)
     );
 ");
