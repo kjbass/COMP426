@@ -29,7 +29,7 @@ $conn->query("
         teamID INT NOT NULL,
         date DATE NOT NULL,
         FOREIGN KEY(teamID) REFERENCES teams(teamID),
-        PRIMARY KEY (teamID)
+        PRIMARY KEY (playerID)
     );
 ");
 $conn->query("
@@ -41,7 +41,7 @@ $conn->query("
         FOREIGN KEY(teamID) REFERENCES team(teamID)
         FOREIGN KEY(scoringPlayerID) REFERENCES players(playerID),
         FOREIGN KEY(quarterBackID) REFERENCES players(playerID),
-        PRIMARY KEY (teamID)
+        PRIMARY KEY (eventID)
     );
 ");
 
