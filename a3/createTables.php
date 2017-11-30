@@ -26,7 +26,6 @@ $conn->query("
         firstName VARCHAR(40) NOT NULL,
         lastName VARCHAR(40) NOT NULL,
         teamID INT NOT NULL,
-        date DATE NOT NULL,
         FOREIGN KEY(teamID) REFERENCES teams(teamID),
         PRIMARY KEY (playerID)
     );
