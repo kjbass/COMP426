@@ -4,7 +4,6 @@ $conn->query("
     CREATE TABLE IF NOT EXISTS teams(
         teamID INT NOT NULL AUTO_INCREMENT,
         name VARCHAR(40),
-        date DATE NOT NULL,
         PRIMARY KEY (teamID)
     );
 ");
@@ -38,8 +37,10 @@ $conn->query("
         event_type VARCHAR(10) NOT NULL,
         scoringPlayerID INT NOT NULL,
         quarterBackID INT,
+        gameID INT NOT NULL,
         FOREIGN KEY(scoringPlayerID) REFERENCES players(playerID),
         FOREIGN KEY(quarterBackID) REFERENCES players(playerID),
+        FOREIGN KEY(gameID) REFERENCES games(gameID),
         PRIMARY KEY (eventID)
     );
 ");
