@@ -1,3 +1,3 @@
 <?php
-    $blah = new set();
+    $blah = new Set();
 ?>
