@@ -50,7 +50,7 @@
         } else {
             $conn->query("
             INSERT INTO events(event_type, scoringPlayerID, gameID)
-            VALUES('".$line[5]."', ".$player_id.", ".$game_id.");
+            VALUES('".rtrim($line[5], " \n")."', ".$player_id.", ".$game_id.");
         ");
         }
     }
