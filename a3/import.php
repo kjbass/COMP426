@@ -7,7 +7,7 @@
             if(is_null($last_line)){
                 
             }
-            $line = $line.explode(" ");
+            $line = explode(" ", $line);
 
             $result = $conn->query("
             SELECT g.gameID
