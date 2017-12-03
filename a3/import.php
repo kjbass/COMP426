@@ -4,9 +4,6 @@
     if ($handle) {
         while (($line = fgets($handle)) !== false) {
             //FirstName LastName team1 team2 Date EVENTTYPE (FirstName LastName)?
-            if(is_null($last_line)){
-                
-            }
             $line = explode(" ", $line);
 
             $result = $conn->query("
