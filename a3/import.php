@@ -48,6 +48,7 @@
                 INSERT INTO events(event_type, scoringPlayerID, quarterBackID, gameID)
                 VALUES('".$line[5]."', ".$player_id.", ".$qb_id.", ".$game_id.");
             ");
+            $count++;
         } else {
             $conn->query("
             INSERT INTO events(event_type, scoringPlayerID, gameID)
@@ -55,7 +56,7 @@
         ");
         }
     }
-    $count++;
+    
   }
   print $count;
   echo $count;
