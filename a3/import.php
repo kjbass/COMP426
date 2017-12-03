@@ -6,6 +6,7 @@
     $line = fgets($file_handle);
     if ($line != NULL)
     {
+        echo $line;
         //FirstName LastName team1 team2 Date EVENTTYPE (FirstName LastName)?
         $line = explode(" ", $line);
         $result = $conn->query("
