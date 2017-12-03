@@ -1,6 +1,7 @@
 <?php
   $file_handle = fopen("input.txt", "r");
   $conn = new mysqli("classroom.cs.unc.edu", "kjbass", "426password!", "kjbassdb");
+  $count = 0;
   while (!feof($file_handle))
   {
     $line = fgets($file_handle);
@@ -54,7 +55,10 @@
         ");
         }
     }
+    $count++;
   }
+  print $count;
+  echo $count;
 ?>
 
 
