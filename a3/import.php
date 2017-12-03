@@ -28,7 +28,7 @@
             )
         ");
         }
-    
+        echo $result->fetch_row();
         fclose($handle);
     } else {
         // error opening the file.
