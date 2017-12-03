@@ -1,0 +1,22 @@
+teams:
+   teamID : INT, NOT NULL, AUTO INCREMENT, primary key
+   name : VARCHAR(40), name of teamID
+
+games:
+    gameID : INT, NOT NULL, AUTO INCREMENT, primary key
+    team1ID : INT, NOT NULL, foreign key to first team
+    team2ID : INT, NOT NULL, foreign key to second team
+    date : DATE, NOT NULL, it is thedate of the gameID
+
+players:
+    playerID : INT, NOT NULL, AUTO INCREMENT, primary key
+    firstName: VARCHAR(40) NOT NULL, players first name
+    lastName VARCHAR(40) NOT NULL, players last name
+    teamID INT NOT NULL, foreign key reference to the player's team
+
+events:
+    eventID : INT, NOT NULL, AUTO INCREMENT, primary key
+    event_type : VARCHAR(10) NOT NULL, is the type of event
+    scoringPlayerID : INT NOT NULL, foreign key reference to players table of the player that scoringPlayerID
+    gameID : INT NOT NULL, foreign key reference to the game the event occurs in 
+    
