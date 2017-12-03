@@ -7,25 +7,26 @@
             $line = explode(" ", $line);
 
             $result = $conn->query("
-            SELECT g.gameID
-            FROM games g
-            WHERE g.date='".$line[4]."'
-            AND (
-                g.team1ID = (
-                    SELECT t.teamID 
-                    FROM teams t
-                    WHERE t.name='".$line[2]."'
+                SELECT g.gameID
+                FROM games g
+                WHERE g.date='".$line[4]."'
+                AND (
+                    g.team1ID = (
+                        SELECT t.teamID 
+                        FROM teams t
+                        WHERE t.name='".$line[2]."'
+                    )
+                    OR
+                    g.team1ID = (
+                        SELECT t.teamID 
+                        FROM teams t
+                        WHERE t.name='".$line[3]."'
+                    )
                 )
-                OR
-                g.team1ID = (
-                    SELECT t.teamID 
-                    FROM teams t
-                    WHERE t.name='".$line[3]."'
-                )
-            )
-        ");
+            ");
+            echo $result->fetch_row()[0];
         }
-        echo $result->fetch_row()[0];
+        
         fclose($handle);
     } else {
         // error opening the file.
