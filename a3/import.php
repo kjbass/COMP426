@@ -7,7 +7,6 @@
     $line = fgets($file_handle);
     if ($line != NULL)
     {
-        echo $line;
         //FirstName LastName team1 team2 Date EVENTTYPE (FirstName LastName)?
         $line = explode(" ", $line);
         $result = $conn->query("
@@ -41,14 +40,13 @@
                 SELECT p.playerID 
                 FROM players p
                 WHERE p.firstName='".$line[6]."'
-                AND p.lastName='".$line[7]."'
-            ");
+                AND p.lastName='".rtrim($line[7], " \n")."'");
             $qb_id = $result->fetch_row()[0];
             $conn->query("
                 INSERT INTO events(event_type, scoringPlayerID, quarterBackID, gameID)
                 VALUES('".$line[5]."', ".$player_id.", ".$qb_id.", ".$game_id.");
-            ");
-            $count++;
+            ");;
+
         } else {
             $conn->query("
             INSERT INTO events(event_type, scoringPlayerID, gameID)
@@ -58,8 +56,6 @@
     }
     
   }
-  print $count;
-  echo $count;
 ?>
 
 
