@@ -24,7 +24,32 @@
                     )
                 )
             ");
-            echo $result->fetch_row()[0];
+            $game_id = $result->fetch_row()[0];
+            $result = $conn->query("
+                SELECT p.playerID 
+                FROM players p
+                WHERE p.firstName='".$line[0]."'
+                AND p.lastName='".$line[1]."'
+            ");
+            $player_id = $result->fetch_row()[0];
+            if($line[5] == "passing"){
+                $result = $conn->query("
+                    SELECT p.playerID 
+                    FROM players p
+                    WHERE p.firstName='".$line[6]."'
+                    AND p.lastName='".$line[7]."'
+                ");
+                $qb_id = $result->fetch_row()[0];
+                $conn->query("
+                    INSERT INTO events(event_type, scoringPlayerID, quarterBackID, gameID)
+                    VALUES('".$line[5]."', ".$player_id.", ".$qb_id.", ".$game_id.");
+                ");
+            } else {
+                $conn->query("
+                INSERT INTO events(event_type, scoringPlayerID, gameID)
+                VALUES('".$line[5]."', ".$player_id.", ".$game_id.");
+            ");
+            }
         }
         
         fclose($handle);
