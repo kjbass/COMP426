@@ -21,8 +21,7 @@ def get_unique_teams(filename):
             split = line.split(" ")
             name = split[0] + ' ' + split[1]
             if name not in name_set:
-                name_to_team[name] = split[3]
-                print(split[3])
+                name_to_team[name] = split[2]
             name_set.add(name)
         for name in name_set:
             split_name = name.split(" ")
@@ -31,7 +30,8 @@ def get_unique_teams(filename):
     
 def list_to_SQL(tuple_list):
     for el in tuple_list:
-        print('''INSERT INTO players(firstName, lastName, teamID) VALUES''' + str(el) + ';')
+    #   print("INSERT INTO players(firstName, lastName, teamID) VALUES" + str(el) + ';')
+        print("UPDATE players SET teamID="+str(el[2])+" WHERE firstName='"+el[0]+"' AND lastName='"+el[1]+"';")
 
 
 get_unique_teams("input.txt")
